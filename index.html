@@ -1,0 +1,751 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اردوگاه گلستان | رزرو آنلاین</title>
+
+<!-- کتابخانه‌های تقویم شمسی -->
+<link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+<script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+<style>
+  @font-face{
+    font-family:"IranNastaliq";
+    src:url("https://raw.githubusercontent.com/miralaie/golestan-camp/42ae7090f1450c7e1d99cc319e34c39181225000/IranNastaliq.ttf") format("truetype");
+    font-weight:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:"B Nazanin";
+    src:url("https://raw.githubusercontent.com/miralaie/golestan-camp/222178c6b70bbe54e8eb61f1fe48be252e670f15/B-NAZANIN.TTF") format("truetype");
+    font-weight:normal;
+    font-display:swap;
+  }
+  @font-face{
+    font-family:"B Titr";
+    src:url("https://raw.githubusercontent.com/miralaie/golestan-camp/222178c6b70bbe54e8eb61f1fe48be252e670f15/B%20Titr%20Bold_0.ttf") format("truetype");
+    font-weight:normal;
+    font-display:swap;
+  }
+  :root{
+    --green-dark:#1b4d35;
+    --green:#2e8b57;
+    --green-light:#eef7f1;
+    --gold:#b8863f;
+    --gold-light:#f4e9d8;
+    --text:#232323;
+    --muted:#6f7670;
+    --bg:#faf9f6;
+    --card:#ffffff;
+    --radius:18px;
+    --shadow-sm:0 2px 10px rgba(27,77,53,0.06);
+    --shadow-md:0 10px 30px rgba(27,77,53,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"B Nazanin","Tahoma","Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.95;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  header.hero{
+    position:relative;
+    background: 
+      linear-gradient(135deg, rgba(27,77,53,0.65), rgba(46,139,87,0.60)),
+      url('https://i.postimg.cc/0k1Ncmxr/IMG-20261022-231700-892.jpg') center/cover no-repeat;
+    color:#fff;
+    padding:85px 20px 120px;
+    text-align:center;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 36px);
+    pointer-events:none;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:48px;
+    background:var(--bg);
+    border-radius:60% 60% 0 0 / 100% 100% 0 0;
+  }
+  header.hero .hero-inner{
+    position:relative;
+    z-index:1;
+  }
+  header.hero .hero-icon{
+    width:56px;
+    height:56px;
+    margin:0 auto 18px;
+    opacity:0.95;
+  }
+  header.hero h1{
+    font-family:"IranNastaliq","B Titr","Tahoma",sans-serif;
+    font-size:5rem;
+    font-weight:normal;
+    letter-spacing:0;
+    margin-bottom:12px;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    line-height: 1.3;
+  }
+  header.hero p.subtitle{
+    font-size:1.15rem;
+    opacity:0.98;
+    max-width:580px;
+    margin:0 auto;
+    font-weight:300;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  header.hero .owner-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:22px;
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.5);
+    padding:8px 22px;
+    border-radius:30px;
+    font-size:0.9rem;
+    backdrop-filter:blur(4px);
+  }
+  main{
+    max-width:880px;
+    margin:-60px auto 0;
+    padding:0 20px 70px;
+    position:relative;
+    z-index:2;
+  }
+  section.card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow-md);
+    padding:34px 32px;
+    margin-bottom:28px;
+    border:1px solid rgba(27,77,53,0.05);
+  }
+  section.card h2{
+    font-family:"B Titr","Tahoma",sans-serif;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--green-dark);
+    font-size:1.4rem;
+    letter-spacing:0.2px;
+    margin-bottom:20px;
+    border-right:4px solid var(--gold);
+    padding-right:14px;
+  }
+  section.card h2 svg{
+    width:22px;
+    height:22px;
+    flex-shrink:0;
+  }
+  section.card > p{
+    color:var(--text);
+  }
+  .facilities{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px;
+    margin-top:12px;
+  }
+  .facility-item{
+    background:var(--green-light);
+    border-radius:14px;
+    padding:22px 12px;
+    text-align:center;
+    font-size:0.95rem;
+    color:var(--green-dark);
+    font-weight:600;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .facility-item:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-sm);
+  }
+  .facility-item svg{
+    width:30px;
+    height:30px;
+    display:block;
+    margin:0 auto 10px;
+    color:var(--green);
+  }
+  .capacity-strip{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid #eef0ec;
+  }
+  .capacity-strip div{
+    text-align:center;
+  }
+  .capacity-strip .num{
+    font-family:"B Titr","Tahoma",sans-serif;
+    font-size:2rem;
+    font-weight:800;
+    color:var(--green);
+    display:block;
+  }
+  .capacity-strip .lbl{
+    color:var(--muted);
+    font-size:0.88rem;
+  }
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+    margin-top:10px;
+  }
+  .gallery-item{
+    aspect-ratio:4/3;
+    border-radius:14px;
+    background:var(--green-light);
+    border:1.5px dashed #c9ddcf;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:0.85rem;
+    text-align:center;
+    padding:6px;
+    overflow: hidden;
+    transition: transform .2s ease;
+  }
+  .gallery-item:hover {
+    transform: scale(1.02);
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  .location-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: var(--green-light);
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 15px;
+    border: 1px solid #d2e5d7;
+  }
+  .location-text {
+    font-weight: 700;
+    color: var(--green-dark);
+    font-size: 1rem;
+  }
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-dark);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background .2s ease;
+  }
+  .map-btn:hover {
+    background: var(--green);
+  }
+  table.price-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+    font-size:0.95rem;
+  }
+  table.price-table th, table.price-table td{
+    padding:14px 10px;
+    text-align:center;
+    border-bottom:1px solid #eef0ec;
+  }
+  table.price-table th{
+    background:var(--green-light);
+    color:var(--green-dark);
+    font-weight:700;
+    font-size:0.88rem;
+  }
+  table.price-table th:first-child{ border-top-right-radius:10px; }
+  table.price-table th:last-child{ border-top-left-radius:10px; }
+  table.price-table tbody tr:hover{ background:#fbfbf9; }
+  table.price-table tbody tr:last-child td{ border-bottom:none; }
+
+  /* استایل‌های بخش تقویم و رزرو */
+  .calc-box{
+    background:var(--green-light);
+    border-radius:16px;
+    padding:26px;
+    margin-top:22px;
+    border:1px solid #e2eee6;
+  }
+  .calc-row{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .calc-row label{
+    font-weight:700;
+    color:var(--green-dark);
+    font-size:0.92rem;
+  }
+  .calc-row select, .calc-row input{
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #cfe3d6;
+    font-size:1rem;
+    font-family:inherit;
+    background:#fff;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .calc-row select:focus, .calc-row input:focus{
+    outline:none;
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(46,139,87,0.15);
+  }
+  .calc-result{
+    text-align:center;
+    margin-top:16px;
+    padding:20px;
+    background:#fff;
+    border-radius:14px;
+    border:1.5px solid var(--gold);
+    box-shadow:var(--shadow-sm);
+  }
+  .calc-result .amount{
+    font-family:"B Titr","Tahoma",sans-serif;
+    font-size:2rem;
+    font-weight:800;
+    color:var(--green-dark);
+    display:block;
+    margin-top:6px;
+  }
+
+  /* استایل وضعیت تقویم و دکمه‌ها */
+  .status-message {
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+  }
+  .status-available { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .status-reserved { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  .status-checking { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--green-dark);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s ease;
+  }
+  .submit-btn:hover { background: var(--green); }
+  .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .datepicker-plot-area { font-family: "B Nazanin", sans-serif !important; }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .faq-item {
+    background: var(--green-light);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2eee6;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+    font-size: 1rem;
+  }
+  .faq-a {
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.8;
+  }
+  .note{
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-top:12px;
+  }
+  .rules-list{
+    padding-right:22px;
+  }
+  .rules-list li{
+    margin-bottom:10px;
+    padding-right:4px;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.85rem;
+    padding:26px 20px;
+    border-top:1px solid #eef0ec;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <svg class="hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+      <path d="M12 3 3 19h18L12 3Z" stroke-linejoin="round"/>
+      <path d="M12 9 6.5 19h11L12 9Z" stroke-linejoin="round"/>
+      <path d="M12 3v16" stroke-opacity="0.6"/>
+    </svg>
+    <h1>اردوگاه گلستان</h1>
+    <p class="subtitle">محیطی سرسبز و آرام برای اردوها و گردهمایی‌های آموزشی و خانوادگی</p>
+    <span class="owner-badge">متعلق به اداره ی آموزش و پرورش استثنایی استان یزد</span>
+  </div>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      درباره ی اردوگاه
+    </h2>
+    <p>
+      اردوگاه گلستان با فضایی سرسبز و امکانات رفاهی مناسب، مکانی ایده‌آل برای برگزاری اردوها،
+      گردهمایی‌ها و مراسم گروهی است. درخواست رزرو به صورت کامل آنلاین بررسی می‌شود و نیازی به
+      تماس تلفنی نیست -- همه ی اطلاعات لازم را در همین صفحه ببینید و فرم درخواست را تکمیل کنید.
+    </p>
+    <div class="capacity-strip">
+      <div>
+        <span class="num">۱۰۰ نفر</span>
+        <span class="lbl">ظرفیت کل اردوگاه</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      موقعیت مکانی و لوکیشن
+    </h2>
+    <p>برای دسترسی آسان به اردوگاه گلستان، می‌توانید از طریق نقشه زیر مسیریابی کنید:</p>
+    <div class="location-box">
+      <span class="location-text">استان یزد - ده بالا - اردوگاه تفریحی و آموزشی گلستان</span>
+      <a class="map-btn" href="https://g.co/kgs/jKtPQKo" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        مشاهده در گوگل مپ
+      </a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+      امکانات اردوگاه
+    </h2>
+    <div class="facilities">
+      <div class="facility-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
+        تالارهای پذیرایی
+      </div>
+      <div class="facility-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22V12"/><path d="M12 12C7 12 5 9 5 5c4 0 7 2 7 7Z"/><path d="M12 12c5 0 7-3 7-7-4 0-7 2-7 7Z"/></svg>
+        فضای سبز
+      </div>
+      <div class="facility-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11a8 8 0 0 1 16 0"/><path d="M3 11h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z"/><path d="M7 19h10"/></svg>
+        آشپزخانه
+      </div>
+      <div class="facility-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2c2 3-1 4-1 6a3 3 0 1 0 6 0c0-1-1-2-1-3 2 1 3 4 3 6a7 7 0 1 1-14 0c0-4 3-5 3-9 1 1 2 2 4 0Z"/></svg>
+        تجهیزات باربیکیو
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+      تصاویر اردوگاه
+    </h2>
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://i.postimg.cc/0k1Ncmxr/IMG-20261022-231700-892.jpg" alt="اردوگاه گلستان - تصویر اول">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.postimg.cc/vTByxGn8/IMG-20261022-231709-098.jpg" alt="اردوگاه گلستان - تصویر دوم">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.postimg.cc/xCgYdXXc/IMG-20261022-231714-074.jpg" alt="اردوگاه گلستان - تصویر سوم">
+      </div>
+      <div class="gallery-item">
+        <img src="https://i.postimg.cc/FRGmKYYY/IMG-20261022-231719-560.jpg" alt="اردوگاه گلستان - تصویر چهارم">
+      </div>
+    </div>
+    <p class="note">تصاویر واقعی محوطه و امکانات اردوگاه گلستان</p>
+  </section>
+
+  <section class="card" id="booking-section">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/><circle cx="12" cy="12" r="5"/></svg>
+      محاسبه هزینه و استعلام آنلاین تاریخ رزرو
+    </h2>
+    
+    <div class="calc-box">
+      <form id="bookingForm">
+        <div class="calc-row">
+          <label for="applicantType">نوع متقاضی</label>
+          <select id="applicantType">
+            <option value="special">کارکنان آموزش و پرورش استثنایی</option>
+            <option value="staff">کارکنان آموزش و پرورش عادی</option>
+            <option value="other">خارج از آموزش و پرورش</option>
+          </select>
+        </div>
+
+        <div class="calc-row">
+          <label for="peopleCount">تعداد کل نفرات</label>
+          <input type="number" id="peopleCount" min="1" value="15" required />
+        </div>
+
+        <!-- فیلد تقویم شمسی -->
+        <div class="calc-row">
+          <label for="persianDateInput">انتخاب تاریخ رزرو (شمسی)</label>
+          <input type="text" id="persianDateInput" class="persian-datepicker-input" placeholder="تاریخ مورد نظر را انتخاب کنید..." readonly required />
+          <input type="hidden" id="altDateInput">
+        </div>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <div class="calc-result">
+          مبلغ قابل پرداخت
+          <span class="amount" id="resultAmount">۱,۶۰۰,۰۰۰ تومان</span>
+        </div>
+
+        <!-- بخش اطلاعات تماس متقاضی -->
+        <div id="contactFields" style="display:none; margin-top:20px; border-top: 1px solid #cfe3d6; padding-top: 15px;">
+          <div class="calc-row">
+            <label for="fullName">نام و نام خانوادگی متقاضی</label>
+            <input type="text" id="fullName" placeholder="مثلاً: علی میرعلایی" required>
+          </div>
+          <div class="calc-row">
+            <label for="phone">شماره همراه</label>
+            <input type="tel" id="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+          </div>
+          <button type="submit" id="submitBtn" class="submit-btn">ثبت رسمی درخواست رزرو</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      مراحل ثبت درخواست
+    </h2>
+    <ol class="rules-list">
+      <li>تاریخ مورد نظر خود را از تقویم شمسی بالا انتخاب و ظرفیت آن را آنلاین استعلام بگیرید.</li>
+      <li>در صورت آزاد بودن تاریخ، نام و شماره تماس خود را وارد نموده و درخواست را ثبت کنید.</li>
+      <li>درخواست شما بررسی شده و پیامک تأیید نهایی جهت واریز وجه ارسال می‌گردد.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      سوالات متداول
+    </h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">ساعت تحویل و تخلیه ی اردوگاه چه زمانی است؟</div>
+        <div class="faq-a">زمان تحویل اردوگاه ساعت ۱۸:۰۰ عصر تاریخ رزرو و ساعت تخلیه ساعت ۱۸:۰۰ عصر روز بعد می‌باشد.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">آیا امکان لغو رزرو و استرداد وجه وجود دارد؟</div>
+        <div class="faq-a">تا ۴۸ ساعت قبل از تاریخ رزرو با کسر ۲۰ درصد کارمزد امکان‌پذیر است.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  اردوگاه گلستان -- متعلق به اداره ی آموزش و پرورش استثنایی استان یزد
+</footer>
+
+<script>
+  // آدرس اسکریپت گوگل شیت شما (پس از انتشار اسکریپت، لینک وب‌اپلیکیشن خود را اینجا جایگزین کنید)
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzGAeIXmLD_Ib6BQ0sKfpQ2YTbOfAUWm8UPkVfcCB04XDOrz7i8bRCFUGTpEOMzyjgG/exec";
+
+  const applicantType = document.getElementById('applicantType');
+  const peopleCount = document.getElementById('peopleCount');
+  const resultAmount = document.getElementById('resultAmount');
+  const statusMessage = document.getElementById('statusMessage');
+  const contactFields = document.getElementById('contactFields');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // تبدیل ارقام فارسی/عربی به انگلیسی (برای مقایسه‌ی درست با گوگل شیت)
+  function toEnglishDigits(str) {
+    return String(str)
+      .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+      .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+  }
+
+  function toPersianDigits(num) {
+    const persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return num.toString().replace(/[0-9]/g, d => persian[d]);
+  }
+
+  function formatNumber(num) {
+    return toPersianDigits(num.toLocaleString('en-US'));
+  }
+
+  function calculatePrice() {
+    let people = parseInt(peopleCount.value, 10);
+    if (isNaN(people) || people < 1) people = 1;
+
+    const basePeople = 15;
+    const extraPersonFee = 100000;
+    let basePrice;
+    if (applicantType.value === 'special') basePrice = 1600000;
+    else if (applicantType.value === 'staff') basePrice = 2000000;
+    else basePrice = 2500000;
+
+    let total = basePrice;
+    if (people > basePeople) {
+      const extra = people - basePeople;
+      total += extra * extraPersonFee;
+    }
+
+    resultAmount.textContent = formatNumber(total) + ' تومان';
+  }
+
+  applicantType.addEventListener('change', calculatePrice);
+  peopleCount.addEventListener('input', calculatePrice);
+  calculatePrice();
+
+  // فعال‌سازی تقویم شمسی
+  $(document).ready(function() {
+    $(".persian-datepicker-input").pDatepicker({
+      format: 'YYYY/MM/DD',
+      altField: '#altDateInput',
+      altFormat: 'YYYY/MM/DD',
+      initialValue: false,
+      minDate: new persianDate().valueOf(),
+      autoClose: true,
+      onSelect: function(unix) {
+        let selectedDate = $("#persianDateInput").val();
+        checkDateAvailability(selectedDate);
+      }
+    });
+  });
+
+  // بررسی آزاد بودن تاریخ از گوگل شیت
+  function checkDateAvailability(dateStr) {
+    statusMessage.style.display = 'block';
+    statusMessage.className = 'status-message status-checking';
+    statusMessage.textContent = 'در حال بررسی ظرفیت تاریخ انتخاب شده...';
+    contactFields.style.display = 'none';
+
+    if (GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID")) {
+      // شبیه‌سازی تست موقعی که هنوز اسکریپت متصل نشده است
+      setTimeout(() => {
+        showAvailableStatus(dateStr);
+      }, 800);
+      return;
+    }
+
+    fetch(`${GOOGLE_SCRIPT_URL}?action=checkDate&date=${encodeURIComponent(toEnglishDigits(dateStr))}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.available) {
+          showAvailableStatus(dateStr);
+        } else {
+          statusMessage.className = 'status-message status-reserved';
+          statusMessage.textContent = `متأسفانه تاریخ ${dateStr} قبلاً رزرو شده است. لطفاً تاریخ دیگری را انتخاب کنید.`;
+          contactFields.style.display = 'none';
+        }
+      })
+      .catch(err => {
+        statusMessage.className = 'status-message status-reserved';
+        statusMessage.textContent = 'خطا در اتصال به سرور رزرو. لطفاً چند لحظه بعد دوباره تلاش کنید.';
+        contactFields.style.display = 'none';
+      });
+  }
+
+  function showAvailableStatus(dateStr) {
+    statusMessage.className = 'status-message status-available';
+    statusMessage.textContent = `تاریخ ${dateStr} خالی است! مشخصات خود را برای ثبت اولیه وارد کنید.`;
+    contactFields.style.display = 'block';
+  }
+
+  // ارسال داده‌های رزرو به گوگل شیت
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'در حال ثبت رزرو...';
+
+    const formData = {
+      action: 'addBooking',
+      date: toEnglishDigits($("#persianDateInput").val()),
+      applicantType: applicantType.options[applicantType.selectedIndex].text,
+      peopleCount: peopleCount.value,
+      price: resultAmount.textContent,
+      fullName: document.getElementById('fullName').value,
+      phone: document.getElementById('phone').value
+    };
+
+    if (GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID")) {
+      alert('درخواست رزرو شما ثبت شد! (برای اتصال دائمی به گوگل‌شیت، مراحل راهنمای گوگل‌شیت را دنبال کنید)');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ثبت رسمی درخواست رزرو';
+      return;
+    }
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    }).then(() => {
+      alert('درخواست رزرو شما با موفقیت ثبت گردید. پس از بررسی جهت تأیید با شما تماس گرفته خواهد شد.');
+      location.reload();
+    }).catch(err => {
+      alert('خطا در ثبت رزرو. لطفاً مجدداً تلاش کنید.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ثبت رسمی درخواست رزرو';
+    });
+  });
+</script>
+
+</body>
+</html>
